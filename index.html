@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قوانين SA-MP - تطبيق الرول بلاي</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#0c1a2d">
+    <meta name="description" content="تطبيق قوانين الرول بلاي لسيرفرات SA-MP - يمكن تثبيته على الهاتف">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚖️</text></svg>">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #0c1a2d 0%, #1a3a5f 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .install-prompt {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(16, 33, 54, 0.95);
+            border-radius: 15px;
+            padding: 15px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid #4facfe;
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.5s ease;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .install-prompt.show {
+            display: flex;
+        }
+        
+        .install-prompt p {
+            margin: 0;
+            font-size: 1rem;
+            color: #a0c8ff;
+        }
+        
+        .install-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .install-btn, .cancel-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-family: 'Cairo', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .install-btn {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: #0c1a2d;
+        }
+        
+        .cancel-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        
+        .install-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+        
+        .cancel-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .install-icon {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        .install-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .install-icon i {
+            color: #0c1a2d;
+            font-size: 1.5rem;
+        }
+        
+        .offline-notice {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(255, 193, 7, 0.9);
+            color: #0c1a2d;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            z-index: 1001;
+            display: none;
+            animation: fadeIn 0.5s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .offline-notice.show {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-top: 10px;
+        }
+        
+        .app-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .app-control-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .app-control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(15deg);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 80px; /* مساحة لأزرار التثبيت */
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(79, 172, 254, 0.3);
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            color: #a0c8ff;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            color: #00f2fe;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+        
+        .app {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .rules-container {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(16, 33, 54, 0.8);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(79, 172, 254, 0.2);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+        
+        .rules-container:hover {
+            transform: translateY(-5px);
+        }
+        
+        .rules-container h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #4facfe;
+            border-bottom: 2px solid rgba(79, 172, 254, 0.3);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .rules-container h2 i {
+            color: #00f2fe;
+        }
+        
+        .rules-list {
+            list-style: none;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .rules-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .rules-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .rules-list::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #4facfe, #00f2fe);
+            border-radius: 10px;
+        }
+        
+        .rules-list li {
+            padding: 15px;
+            margin-bottom: 12px;
+            background: rgba(30, 60, 100, 0.5);
+            border-radius: 12px;
+            border-right: 4px solid #4facfe;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .rules-list li:hover {
+            background: rgba(40, 80, 140, 0.7);
+            transform: translateX(-5px);
+            border-right-color: #00f2fe;
+        }
+        
+        .rules-list li:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #4facfe, #00f2fe);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .rules-list li:hover:before {
+            opacity: 1;
+        }
+        
+        .rules-list li span {
+            font-weight: bold;
+            color: #00f2fe;
+            margin-left: 5px;
+        }
+        
+        .buttons-container {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .rule-btn {
+            padding: 22px 25px;
+            background: rgba(16, 33, 54, 0.8);
+            border: none;
+            border-radius: 16px;
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-align: right;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(79, 172, 254, 0.1);
+        }
+        
+        .rule-btn i {
+            font-size: 1.8rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .rule-btn:hover {
+            background: rgba(30, 60, 100, 0.9);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .rule-btn:hover i {
+            transform: scale(1.2);
+        }
+        
+        .rule-btn.active {
+            background: linear-gradient(90deg, rgba(79, 172, 254, 0.2), rgba(0, 242, 254, 0.2));
+            border: 1px solid rgba(79, 172, 254, 0.4);
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.3);
+        }
+        
+        .btn-glow {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(79, 172, 254, 0.2) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        
+        .rule-btn:hover .btn-glow {
+            opacity: 1;
+        }
+        
+        .btn-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(79, 172, 254, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(79, 172, 254, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(79, 172, 254, 0);
+            }
+        }
+        
+        .highlight-line {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            transition: width 0.5s ease;
+            border-radius: 3px;
+        }
+        
+        .rule-btn:hover .highlight-line {
+            width: 100%;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(79, 172, 254, 0.2);
+            color: #a0c8ff;
+            font-size: 1rem;
+        }
+        
+        .footer a {
+            color: #4facfe;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer a:hover {
+            color: #00f2fe;
+            text-decoration: underline;
+        }
+        
+        /* ستايلات PWA للتطبيق المثبت */
+        @media (display-mode: standalone) {
+            body {
+                padding-top: 20px;
+            }
+            
+            .install-icon {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .app {
+                flex-direction: column;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .rule-btn {
+                padding: 18px 20px;
+                font-size: 1.1rem;
+            }
+            
+            .install-prompt {
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- إشعار عدم الاتصال -->
+    <div class="offline-notice" id="offlineNotice">
+        ⚠️ أنت تستخدم التطبيق بدون اتصال بالإنترنت
+    </div>
+    
+    <!-- زر تثبيت التطبيق -->
+    <div class="install-icon" id="installIcon">
+        <i class="fas fa-download"></i>
+    </div>
+    
+    <!-- نافذة تأكيد التثبيت -->
+    <div class="install-prompt" id="installPrompt">
+        <p>تثبيت تطبيق قوانين SA-MP على هاتفك؟</p>
+        <div class="install-buttons">
+            <button class="cancel-btn" id="cancelInstall">لاحقاً</button>
+            <button class="install-btn" id="confirmInstall">تثبيت التطبيق</button>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="app-header">
+            <div></div> <!-- عنصر فارغ للمحاذاة -->
+            <div class="app-controls">
+                <button class="app-control-btn" id="shareBtn" title="مشاركة التطبيق">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+                <button class="app-control-btn" id="themeBtn" title="تبديل السمة">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+        
+        <header>
+            <div class="logo">
+                <i class="fas fa-gavel"></i>
+            </div>
+            <h1>قوانين SA-MP - تطبيق الرول بلاي</h1>
+            <p>تطبيق متكامل يمكن تثبيته على هاتفك! اختر الفئة لمعرفة القوانين الخاصة بها</p>
+        </header>
+        
+        <main class="app">
+            <div class="buttons-container">
+                <button class="rule-btn btn-pulse active" data-rule="city" id="city-btn">
+                    <div>
+                        <i class="fas fa-city"></i>
+                        قوانين المدينة العامة
+                    </div>
+                    <div class="btn-glow"></div>
+                    <div class="highlight-line"></div>
+                </button>
+                
+                <button class="rule-btn" data-rule="police" id="police-btn">
+                    <div>
+                        <i class="fas fa-police-car"></i>
+                        قوانين الشرطة
+                    </div>
+                    <div class="btn-glow"></div>
+                    <div class="highlight-line"></div>
+                </button>
+                
+                <button class="rule-btn" data-rule="gangs" id="gangs-btn">
+                    <div>
+                        <i class="fas fa-user-secret"></i>
+                        قوانين العصابات
+                    </div>
+                    <div class="btn-glow"></div>
+                    <div class="highlight-line"></div>
+                </button>
+                
+                <button class="rule-btn" data-rule="driving" id="driving-btn">
+                    <div>
+                        <i class="fas fa-car"></i>
+                        قوانين القيادة
+                    </div>
+                    <div class="btn-glow"></div>
+                    <div class="highlight-line"></div>
+                </button>
+                
+                <button class="rule-btn" data-rule="hospital" id="hospital-btn">
+                    <div>
+                        <i class="fas fa-ambulance"></i>
+                        قوانين المستشفى
+                    </div>
+                    <div class="btn-glow"></div>
+                    <div class="highlight-line"></div>
+                </button>
+                
+                <button class="rule-btn" data-rule="chat" id="chat-btn">
+                    <div>
+                        <i class="fas fa-comments"></i>
+                        قوانين الدردشة
+                    </div>
+                    <div class="btn-glow"></div>
+                    <div class="highlight-line"></div>
+                </button>
+            </div>
+            
+            <div class="rules-container">
+                <h2 id="rules-title"><i class="fas fa-gavel"></i> قوانين المدينة العامة</h2>
+                <ul class="rules-list" id="rules-list">
+                    <!-- سيتم ملء القوانين ديناميكياً -->
+                </ul>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>تطبيق PWA - يمكن تثبيته على هاتفك واستخدامه دون اتصال بالإنترنت</p>
+            <p>SA-MP هي علامة تجارية لشركة Rockstar Games. هذا التطبيق غير تابع لها.</p>
+            <p id="appStatus">التطبيق جاهز للتثبيت!</p>
+        </footer>
+    </div>
+
+    <!-- خدمة العامل (Service Worker) -->
+    <script>
+        // بيانات القوانين (مخزنة محلياً للاستخدام بدون اتصال)
+        const rulesData = {
+            city: [
+                "الالتزام بقوانين الرول بلاي (Role Play) هو شرط أساسي للعب في السيرفر",
+                "يمنع استخدام أي برامج غير قانونية أو غش (Cheats/Hacks) بأي شكل من الأشكال",
+                "يمنع التحرش باللاعبين الآخرين أو مضايقتهم بشكل متعمد",
+                "يمنع استغلال الأخطاء البرمجية (Bugs) في السيرفر لتحقيق مكاسب شخصية",
+                "يجب احترام جميع اللاعبين والإداريين وعدم استخدام لغة غير لائقة",
+                "يمنع القيام بأي فعل يتعارض مع طبيعة لعبة الرول بلاي (Out of Character)",
+                "يمنع التخريب المتعمد للممتلكات العامة أو الخاصة دون سبب مقنع",
+                "يجب على اللاعبين الالتزام بالشخصية التي يلعبون بها وعدم الخروج عنها"
+            ],
+            police: [
+                "يجب على ضباط الشرطة الالتزام بالزي الرسمي للشرطة أثناء الخدمة",
+                "يمنع على ضباط الشرطة استخدام القوة المفرطة ضد المواطنين",
+                "يجب إبلاغ المشتبه بهم بحقوقهم قبل توقيفهم أو استجوابهم",
+                "يمنع على ضباط الشرطة تقديم معلومات كاذبة أو تلفيق تهم",
+                "يجب على ضباط الشرطة الحفاظ على السرية المهنية وعدم إفشاء معلومات خاصة",
+                "يمنع استخدام مركبات الشرطة لأغراض شخصية غير رسمية",
+                "يجب على ضباط الشرطة تقديم تقارير دقيقة عن جميع الحوادث التي يشاركون فيها",
+                "يمنع التعاون مع المجرمين أو العصابات بأي شكل من الأشكال"
+            ],
+            gangs: [
+                "يجب على أعضاء العصابات الالتزام بلباس العصابة المميز أثناء الأنشطة",
+                "يمنع الاعتداء على المدنيين العزل دون سبب مقنع يتناسب مع سياق الرول بلاي",
+                "يجب الحصول على إذن من قادة العصابة قبل البدء بأي عملية إجرامية كبرى",
+                "يمنع التعاون مع أفراد الشرطة أو الكشف عن معلومات العصابة لهم",
+                "يجب احترام مناطق النفوذ للعصابات الأخرى وعدم التعدي عليها دون سبب",
+                "يمنع قتل أو اعتقال أعضاء العصابة من قبل بعضهم البعض دون سبب مقنع",
+                "يجب الحفاظ على سرية هوية أعضاء العصابة وأنشطتها من العامة",
+                "يمنع تجنيد أعضاء جدد دون موافقة قادة العصابة"
+            ],
+            driving: [
+                "يجب الالتزام بإشارات المرور والقواعد العامة للقيادة داخل المدينة",
+                "يمنع القيادة بسرعة عالية في المناطق السكنية أو المزدحمة",
+                "يجب حمل رخصة قيادة سارية المفعول أثناء القيادة",
+                "يمنع القيادة بمركبة مسروقة بشكل واضح في مناطق الشرطة",
+                "يجب إصلاح المركبات التالفة قبل استخدامها على الطرقات العامة",
+                "يمنع إجراء سباقات السيارات غير المصرح بها في الشوارع العامة",
+                "يجب الوقوف عند نقاط التفتيش الشرطية عند الطلب",
+                "يمنع استخدام المركبات كأداة للاعتداء على الآخرين عمداً"
+            ],
+            hospital: [
+                "يجب على الأطباء والممرضين الالتزام بالزي الطبي الرسمي أثناء العمل",
+                "يمنع رفض تقديم العلاج للمرضى أو المصابين دون سبب طبي مقنع",
+                "يجب الحفاظ على سرية المعلومات الطبية للمرضاء وعدم إفشائها",
+                "يمنع تزوير التقارير الطبية أو إصدار شهادات مزورة",
+                "يجب تقديم الإسعافات الأولية فوراً للحالات الطارئة",
+                "يمنع استخدام معدات المستشفى أو الأدوية لأغراض شخصية",
+                "يجب التعامل باحترافية واحترام مع جميع المرضى بغض النظر عن هويتهم",
+                "يمنع التعاون مع المجرمين في تزوير الإصابات أو تقديم معلومات كاذبة"
+            ],
+            chat: [
+                "يمنع استخدام لغة غير لائقة أو مهينة في القنوات العامة",
+                "يجب استخدام القنوات المناسبة لنوع المحادثة (عام، محلي، خاص)",
+                "يمنع الإعلان عن منتجات أو خدمات غير مصرح بها في القنوات العامة",
+                "يجب عدم نشر معلومات شخصية للاعبين آخرين دون إذنهم",
+                "يمنع التشويش أو إرسال رسائل متكررة في القنوات النصية أو الصوتية",
+                "يجب استخدام اللغة العربية الفصحى أو العامية المفهومة في المحادثات",
+                "يمنع التحريض على العنف أو الكراهية بأي شكل من الأشكال",
+                "يجب احترام آراء الآخرين وعدم فرض الرأي بالقوة في النقاشات"
+            ]
+        };
+
+        // عناصر DOM
+        const ruleButtons = document.querySelectorAll('.rule-btn');
+        const rulesList = document.getElementById('rules-list');
+        const rulesTitle = document.getElementById('rules-title');
+        const offlineNotice = document.getElementById('offlineNotice');
+        const installIcon = document.getElementById('installIcon');
+        const installPrompt = document.getElementById('installPrompt');
+        const confirmInstall = document.getElementById('confirmInstall');
+        const cancelInstall = document.getElementById('cancelInstall');
+        const shareBtn = document.getElementById('shareBtn');
+        const themeBtn = document.getElementById('themeBtn');
+        const appStatus = document.getElementById('appStatus');
+
+        // متغيرات PWA
+        let deferredPrompt;
+        let isDarkTheme = true;
+
+        // عناوين الفئات
+        const categoryTitles = {
+            city: "قوانين المدينة العامة",
+            police: "قوانين الشرطة",
+            gangs: "قوانين العصابات",
+            driving: "قوانين القيادة",
+            hospital: "قوانين المستشفى",
+            chat: "قوانين الدردشة"
+        };
+
+        // أيقونات الفئات
+        const categoryIcons = {
+            city: "fa-city",
+            police: "fa-police-car",
+            gangs: "fa-user-secret",
+            driving: "fa-car",
+            hospital: "fa-ambulance",
+            chat: "fa-comments"
+        };
+
+        // تحميل القوانين للفئة المحددة
+        function loadRules(ruleType) {
+            rulesList.innerHTML = '';
+            
+            const iconClass = categoryIcons[ruleType];
+            rulesTitle.innerHTML = `<i class="fas ${iconClass}"></i> ${categoryTitles[ruleType]}`;
+            
+            if (!rulesData[ruleType]) {
+                const li = document.createElement('li');
+                li.textContent = "لا توجد قوانين متاحة لهذه الفئة حالياً.";
+                rulesList.appendChild(li);
+                return;
+            }
+            
+            rulesData[ruleType].forEach((rule, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<span>${index + 1}.</span> ${rule}`;
+                rulesList.appendChild(li);
+            });
+            
+            // تأثير ظهور تدريجي
+            const listItems = rulesList.querySelectorAll('li');
+            listItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(20px)';
+                
+                setTimeout(() => {
+                    item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, index * 100);
+            });
+        }
+
+        // ========== PWA Functions ==========
+
+        // تسجيل Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(registration => {
+                    console.log('Service Worker مسجل:', registration.scope);
+                    appStatus.textContent = 'التطبيق يعمل الآن في وضع المتصفح';
+                }).catch(error => {
+                    console.log('فشل تسجيل Service Worker:', error);
+                    appStatus.textContent = 'التطبيق يعمل في وضع المتصفح فقط';
+                });
+            });
+        }
+
+        // اكتشاف التثبيت المسبق
+        window.addEventListener('appinstalled', () => {
+            console.log('تم تثبيت التطبيق بنجاح!');
+            installIcon.style.display = 'none';
+            installPrompt.classList.remove('show');
+            appStatus.textContent = 'التطبيق مثبت على جهازك!';
+        });
+
+        // عرض مطالبة التثبيت
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installIcon.style.display = 'flex';
+            
+            installIcon.addEventListener('click', () => {
+                installPrompt.classList.add('show');
+            });
+        });
+
+        // تأكيد التثبيت
+        confirmInstall.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                
+                if (outcome === 'accepted') {
+                    console.log('قبل المستخدم تثبيت التطبيق');
+                    installIcon.style.display = 'none';
+                }
+                
+                deferredPrompt = null;
+                installPrompt.classList.remove('show');
+            }
+        });
+
+        // إلغاء التثبيت
+        cancelInstall.addEventListener('click', () => {
+            installPrompt.classList.remove('show');
+        });
+
+        // اكتشاف حالة الاتصال
+        window.addEventListener('online', () => {
+            offlineNotice.classList.remove('show');
+            appStatus.textContent = 'التطبيق متصل بالإنترنت';
+        });
+
+        window.addEventListener('offline', () => {
+            offlineNotice.classList.add('show');
+            appStatus.textContent = 'التطبيق يعمل بدون اتصال بالإنترنت';
+        });
+
+        // التحقق من حالة الاتصال الأولية
+        if (!navigator.onLine) {
+            offlineNotice.classList.add('show');
+            appStatus.textContent = 'التطبيق يعمل بدون اتصال بالإنترنت';
+        }
+
+        // ========== ميزات إضافية ==========
+
+        // مشاركة التطبيق
+        shareBtn.addEventListener('click', async () => {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'قوانين SA-MP - تطبيق الرول بلاي',
+                        text: 'تطبيق قوانين الرول بلاي لسيرفرات SA-MP',
+                        url: window.location.href,
+                    });
+                } catch (error) {
+                    console.log('تم إلغاء المشاركة:', error);
+                }
+            } else {
+                // نسخ الرابط إذا لم تكن API المشاركة متوفرة
+                navigator.clipboard.writeText(window.location.href);
+                alert('تم نسخ رابط التطبيق إلى الحافظة!');
+            }
+        });
+
+        // تبديل السمة
+        themeBtn.addEventListener('click', () => {
+            isDarkTheme = !isDarkTheme;
+            
+            if (isDarkTheme) {
+                document.body.style.background = 'linear-gradient(135deg, #0c1a2d 0%, #1a3a5f 100%)';
+                themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                document.body.style.background = 'linear-gradient(135deg, #2c3e50 0%, #4a6491 100%)';
+                themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+
+        // ========== تهيئة التطبيق ==========
+
+        // تحميل القوانين الافتراضية
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRules('city');
+            
+            // تأثير النبض للزر النشط
+            setInterval(() => {
+                const activeBtn = document.querySelector('.rule-btn.active');
+                if (activeBtn) {
+                    activeBtn.classList.add('btn-pulse');
+                    setTimeout(() => {
+                        activeBtn.classList.remove('btn-pulse');
+                    }, 2000);
+                }
+            }, 3000);
+        });
+
+        // إضافة مستمعي الأحداث للأزرار
+        ruleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const ruleType = this.getAttribute('data-rule');
+                
+                ruleButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                this.classList.add('active');
+                loadRules(ruleType);
+                playButtonSound();
+            });
+            
+            button.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.transform = 'translateY(-5px)';
+                }
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // تأثير صوتي
+        function playButtonSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 600;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.1);
+            } catch (e) {
+                console.log("تعذر تشغيل الصوت");
+            }
+        }
+
+        // تحديد إذا كان التطبيق مثبتاً بالفعل
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            installIcon.style.display = 'none';
+            appStatus.textContent = 'التطبيق مثبت على جهازك ويعمل في وضع التطبيق!';
+        }
+    </script>
+
+    <!-- Service Worker ملف (يتم إنشاؤه افتراضياً) -->
+    <script>
+        // إنشاء Service Worker افتراضي إذا لم يكن موجوداً
+        if ('serviceWorker' in navigator) {
+            const swContent = `
+                // Service Worker لتطبيق قوانين SA-MP
+                const CACHE_NAME = 'samp-rules-v1';
+                const urlsToCache = [
+                    '/',
+                    '/index.html',
+                    '/manifest.json'
+                ];
+
+                self.addEventListener('install', event => {
+                    event.waitUntil(
+                        caches.open(CACHE_NAME)
+                            .then(cache => {
+                                return cache.addAll(urlsToCache);
+                            })
+                    );
+                });
+
+                self.addEventListener('fetch', event => {
+                    event.respondWith(
+                        caches.match(event.request)
+                            .then(response => {
+                                if (response) {
+                                    return response;
+                                }
+                                return fetch(event.request);
+                            })
+                    );
+                });
+
+                self.addEventListener('activate', event => {
+                    const cacheWhitelist = [CACHE_NAME];
+                    event.waitUntil(
+                        caches.keys().then(cacheNames => {
+                            return Promise.all(
+                                cacheNames.map(cacheName => {
+                                    if (cacheWhitelist.indexOf(cacheName) === -1) {
+                                        return caches.delete(cacheName);
+                                    }
+                                })
+                            );
+                        })
+                    );
+                });
+            `;
+
+            // إنشاء blob من محتوى Service Worker
+            const blob = new Blob([swContent], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            
+            // تسجيل Service Worker
+            navigator.serviceWorker.register(swUrl);
+        }
+    </script>
+</body>
+</html>
