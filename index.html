@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>موقع Crown State للقوانين</title>
     
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#0c1a2d">
+    <!-- Meta Tags -->
+    <meta name="theme-color" content="#0a0a0a">
     <meta name="description" content="موقع Crown State للقوانين">
-    <link rel="manifest" href="manifest.json">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚖️</text></svg>">
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
@@ -25,141 +23,19 @@
         
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #0c1a2d 0%, #1a3a5f 100%);
-            color: #fff;
+            background: #0a0a0a;
+            color: #ffffff;
             min-height: 100vh;
             padding: 20px;
             direction: rtl;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        
-        .install-prompt {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: rgba(16, 33, 54, 0.95);
-            border-radius: 15px;
-            padding: 15px;
-            display: none;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 1000;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 2px solid #4facfe;
-            backdrop-filter: blur(10px);
-            animation: slideUp 0.5s ease;
-        }
-        
-        @keyframes slideUp {
-            from { transform: translateY(100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .install-prompt.show {
-            display: flex;
-        }
-        
-        .install-prompt p {
-            margin: 0;
-            font-size: 1rem;
-            color: #a0c8ff;
-        }
-        
-        .install-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .install-btn, .cancel-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            font-family: 'Cairo', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .install-btn {
-            background: linear-gradient(to right, #4facfe, #00f2fe);
-            color: #0c1a2d;
-        }
-        
-        .cancel-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
-        
-        .install-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
-        }
-        
-        .cancel-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        .install-icon {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(to right, #4facfe, #00f2fe);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 999;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            animation: pulse 2s infinite;
-        }
-        
-        .install-icon:hover {
-            transform: scale(1.1);
-        }
-        
-        .install-icon i {
-            color: #0c1a2d;
-            font-size: 1.5rem;
-        }
-        
-        .offline-notice {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            background: rgba(255, 193, 7, 0.9);
-            color: #0c1a2d;
-            padding: 12px 20px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: bold;
-            z-index: 1001;
-            display: none;
-            animation: fadeIn 0.5s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .offline-notice.show {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding-bottom: 80px;
-            padding-top: 30px;
+            padding-bottom: 40px;
+            padding-top: 20px;
         }
         
         header {
@@ -170,24 +46,25 @@
         header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
-            background: linear-gradient(to right, #4facfe, #00f2fe);
+            background: linear-gradient(to right, #ffcc00, #ffaa00);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 0 15px rgba(79, 172, 254, 0.3);
+            text-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
+            font-weight: 700;
         }
         
         .logo {
             font-size: 3rem;
-            color: #00f2fe;
+            color: #ffcc00;
             margin-bottom: 15px;
-            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+            text-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
         }
         
         .app {
             display: flex;
             flex-wrap: wrap;
-            gap: 30px;
+            gap: 25px;
             margin-bottom: 40px;
         }
         
@@ -196,292 +73,213 @@
             min-width: 300px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
         }
         
         .rules-container {
             flex: 2;
             min-width: 300px;
-            background: rgba(16, 33, 54, 0.8);
-            border-radius: 20px;
+            background: #111111;
+            border-radius: 16px;
             padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(79, 172, 254, 0.2);
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s ease;
-        }
-        
-        .rules-container:hover {
-            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 204, 0, 0.15);
+            backdrop-filter: blur(5px);
         }
         
         .rules-container h2 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             margin-bottom: 20px;
-            color: #4facfe;
-            border-bottom: 2px solid rgba(79, 172, 254, 0.3);
-            padding-bottom: 10px;
+            color: #ffcc00;
+            border-bottom: 2px solid rgba(255, 204, 0, 0.2);
+            padding-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         
         .rules-container h2 i {
-            color: #00f2fe;
+            color: #ffaa00;
         }
         
         .rules-list {
             list-style: none;
-            max-height: 600px;
+            max-height: 650px;
             overflow-y: auto;
-            padding-right: 10px;
+            padding-right: 5px;
         }
         
         .rules-list::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         
         .rules-list::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
+            background: #111111;
         }
         
         .rules-list::-webkit-scrollbar-thumb {
-            background: linear-gradient(to bottom, #4facfe, #00f2fe);
+            background: #ffcc00;
             border-radius: 10px;
         }
         
         .rules-list li {
             padding: 15px;
             margin-bottom: 12px;
-            background: rgba(30, 60, 100, 0.5);
-            border-radius: 12px;
-            border-right: 4px solid #4facfe;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            white-space: pre-line; /* يضمن بقاء أسطر مصفوفة المصطلحات منسقة بشكل صحيح */
+            background: #161616;
+            border-radius: 10px;
+            border-right: 4px solid #ffcc00;
+            transition: transform 0.2s ease, background 0.2s ease;
+            will-change: transform;
+            font-size: 1.05rem;
+            line-height: 1.7;
         }
         
         .rules-list li:hover {
-            background: rgba(40, 80, 140, 0.7);
-            transform: translateX(-5px);
-            border-right-color: #00f2fe;
+            background: #1e1e1e;
+            transform: translateX(-3px);
+            border-right-color: #ffaa00;
         }
         
         .rules-list li span {
             font-weight: bold;
-            color: #00f2fe;
+            color: #ffcc00;
             margin-left: 5px;
         }
         
         .rule-btn {
-            padding: 22px 25px;
-            background: rgba(16, 33, 54, 0.8);
-            border: none;
-            border-radius: 16px;
-            color: #fff;
-            font-size: 1.3rem;
+            padding: 20px 22px;
+            background: #111111;
+            border: 1px solid rgba(255, 204, 0, 0.1);
+            border-radius: 12px;
+            color: #eeeeee;
+            font-size: 1.2rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
             text-align: right;
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(79, 172, 254, 0.1);
+            will-change: transform;
         }
         
         .rule-btn i {
-            font-size: 1.8rem;
-            transition: transform 0.3s ease;
-            margin-left: 10px;
+            font-size: 1.5rem;
+            margin-left: 12px;
+            color: #ffcc00;
+            vertical-align: middle;
         }
         
         .rule-btn:hover {
-            background: rgba(30, 60, 100, 0.9);
-            transform: translateY(-8px);
-            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
-        }
-        
-        .rule-btn:hover i {
-            transform: scale(1.2);
+            background: #161616;
+            border-color: rgba(255, 204, 0, 0.3);
+            color: #ffffff;
         }
         
         .rule-btn.active {
-            background: linear-gradient(90deg, rgba(79, 172, 254, 0.2), rgba(0, 242, 254, 0.2));
-            border: 1px solid rgba(79, 172, 254, 0.4);
-            box-shadow: 0 0 20px rgba(79, 172, 254, 0.3);
+            background: #1a1a1a;
+            border: 1px solid #ffcc00;
+            color: #ffcc00;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.1);
         }
-        
-        .btn-glow {
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(79, 172, 254, 0.2) 0%, transparent 70%);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-        
-        .rule-btn:hover .btn-glow {
-            opacity: 1;
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(79, 172, 254, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0); }
-        }
-        
-        .highlight-line {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(to right, #4facfe, #00f2fe);
-            transition: width 0.5s ease;
-            border-radius: 3px;
-        }
-        
-        .rule-btn:hover .highlight-line {
-            width: 100%;
-        }
-        
-        @media (display-mode: standalone) {
-            .install-icon { display: none; }
+
+        .rule-btn.active i {
+            color: #ffaa00;
         }
         
         @media (max-width: 768px) {
             .app { flex-direction: column; }
             header h1 { font-size: 2rem; }
-            .rule-btn { padding: 18px 20px; font-size: 1.1rem; }
+            .rule-btn { padding: 16px 18px; font-size: 1.1rem; }
         }
     </style>
 </head>
 <body>
-
-    <!-- إشعار عدم الاتصال -->
-    <div class="offline-notice" id="offlineNotice">
-        ⚠️ أنت تستخدم التطبيق بدون اتصال بالإنترنت
-    </div>
-    
-    <!-- زر تثبيت التطبيق -->
-    <div class="install-icon" id="installIcon">
-        <i class="fas fa-download"></i>
-    </div>
-    
-    <!-- نافذة تأكيد التثبيت -->
-    <div class="install-prompt" id="installPrompt">
-        <p>Crown State</p>
-        <div class="install-buttons">
-            <button class="cancel-btn" id="cancelInstall">لاحقاً</button>
-            <button class="install-btn" id="confirmInstall">تثبيت التطبيق</button>
-        </div>
-    </div>
     
     <div class="container">
         <header>
             <div class="logo">
                 <i class="fas fa-gavel"></i>
             </div>
-            <h1>Crown state</h1>
+            <h1>Crown State</h1>
         </header>
         
         <main class="app">
             <div class="buttons-container">
-                <button class="rule-btn active" data-rule="city" id="city-btn">
+                <button class="rule-btn active" data-rule="city">
                     <div>
                         <i class="fas fa-city"></i>
                         قوانين المدينة العامة
                     </div>
-                    <div class="btn-glow"></div>
-                    <div class="highlight-line"></div>
                 </button>
                 
-                <button class="rule-btn" data-rule="police" id="police-btn">
+                <button class="rule-btn" data-rule="police">
                     <div>
                         <i class="fas fa-car-on"></i>
                         قوانين الشرطة
                     </div>
-                    <div class="btn-glow"></div>
-                    <div class="highlight-line"></div>
                 </button>
                 
-                <button class="rule-btn" data-rule="gangs" id="gangs-btn">
+                <button class="rule-btn" data-rule="gangs">
                     <div>
                         <i class="fas fa-user-secret"></i>
                         قوانين العصابات
                     </div>
-                    <div class="btn-glow"></div>
-                    <div class="highlight-line"></div>
                 </button>
                 
-                <button class="rule-btn" data-rule="driving" id="driving-btn">
+                <button class="rule-btn" data-rule="driving">
                     <div>
                         <i class="fas fa-car"></i>
                         قوانين القيادة
                     </div>
-                    <div class="btn-glow"></div>
-                    <div class="highlight-line"></div>
                 </button>
                 
-                <button class="rule-btn" data-rule="hospital" id="hospital-btn">
+                <button class="rule-btn" data-rule="hospital">
                     <div>
                         <i class="fas fa-ambulance"></i>
                         قوانين المستشفى
                     </div>
-                    <div class="btn-glow"></div>
-                    <div class="highlight-line"></div>
                 </button>
                 
-                <button class="rule-btn" data-rule="chat" id="chat-btn">
+                <button class="rule-btn" data-rule="chat">
                     <div>
                         <i class="fas fa-comments"></i>
                         قوانين الدردشة
                     </div>
-                    <div class="btn-glow"></div>
-                    <div class="highlight-line"></div>
                 </button>
             </div>
             
             <div class="rules-container">
                 <h2 id="rules-title"><i class="fas fa-gavel"></i> قوانين المدينة العامة</h2>
                 <ul class="rules-list" id="rules-list">
-                    <!-- سيتم ملء القوانين ديناميكياً -->
+                    <!-- سيتم ملء القوانين تلقائياً -->
                 </ul>
             </div>
         </main>
     </div>
 
     <script>
-        // بيانات القوانين (تم إصلاح كتابة النص متعدد الأسطر في الجافاسكريبت)
+        // بيانات القوانين مرتبة ومنظمة بالكامل بدون أخطاء نصية
         const rulesData = {
             city: [
-`الالتزام بهذه المصطلحات داخل المدينة ضروري، أي تهاون في هذه القوانين يصدر عنه عقوبات صارمة:
-
-Server : مدينة
-Ban : عمرة 
-Admin : شبح/ جن
-Bot : مدني
-Skin : لباس
-id : سيسيبي (ccp)
-Lag / Glitch : سحر/صداع
-Discord : الراديو الكبير
-Announce : الجريدة
-Mic : الحنجرة/احبال صوتية
-Restart Server : اعصار
-Afk : راه معا مخو
-Chat : الورقة
-Stash / Cmd : عضلة
-Rules : القوانين / الدستور
-Record: العين = 👀`
+                "الالتزام بهذه المصطلحات داخل المدينة ضروري، أي تهاون في هذه القوانين يصدر عنه عقوبات صارمة.",
+                "Server : يعني المدينة",
+                "Ban : يعني عمرة",
+                "Admin : يعني شبح / جن",
+                "Bot : يعني مدني",
+                "Skin : يعني لباس",
+                "id : يعني سيسيبي (ccp)",
+                "Lag / Glitch : يعني سحر / صداع",
+                "Discord : يعني الراديو الكبير",
+                "Announce : يعني الجريدة",
+                "Mic : يعني الحنجرة / أحبال صوتية",
+                "Restart Server : يعني إعصار",
+                "Afk : يعني راه معا مخو",
+                "Chat : يعني الورقة",
+                "Stash / Cmd : يعني عضلة",
+                "Rules : يعني القوانين / الدستور",
+                "Record : يعني العين ( 👀 )"
             ],
             police: [
                 "يجب على ضباط الشرطة الالتزام بالزي الرسمي للشرطة أثناء الخدمة",
@@ -527,7 +325,7 @@ Record: العين = 👀`
                 "يمنع استخدام لغة غير لائقة أو مهينة في القنوات العامة",
                 "يجب استخدام القنوات المناسبة لنوع المحادثة (عام، محلي، خاص)",
                 "يمنع الإعلان عن منتجات أو خدمات غير مصرح بها في القنوات العامة",
-                "يجب عدم نشر معلومات شخصية للاعبين آخرين دون إذنهم",
+                "يجه عدم نشر معلومات شخصية للاعبين آخرين دون إذنهم",
                 "يمنع التشويش أو إرسال رسائل متكررة في القنوات النصية أو الصوتية",
                 "يجب استخدام اللغة العربية الفصحى أو العامية المفهومة في المحادثات",
                 "يمنع التحريض على العنف أو الكراهية بأي شكل من الأشكال",
@@ -539,13 +337,6 @@ Record: العين = 👀`
         const ruleButtons = document.querySelectorAll('.rule-btn');
         const rulesList = document.getElementById('rules-list');
         const rulesTitle = document.getElementById('rules-title');
-        const offlineNotice = document.getElementById('offlineNotice');
-        const installIcon = document.getElementById('installIcon');
-        const installPrompt = document.getElementById('installPrompt');
-        const confirmInstall = document.getElementById('confirmInstall');
-        const cancelInstall = document.getElementById('cancelInstall');
-
-        let deferredPrompt;
 
         const categoryTitles = {
             city: "قوانين المدينة العامة",
@@ -565,152 +356,53 @@ Record: العين = 👀`
             chat: "fa-comments"
         };
 
-        // تحميل القوانين للفئة المحددة
+        // دالة عرض القوانين بسلاسة وبدون لاق
         function loadRules(ruleType) {
             rulesList.innerHTML = '';
-            const iconClass = categoryIcons[ruleType];
-            rulesTitle.innerHTML = `<i class="fas ${iconClass}"></i> ${categoryTitles[ruleType]}`;
+            rulesTitle.innerHTML = `<i class="fas ${categoryIcons[ruleType]}"></i> ${categoryTitles[ruleType]}`;
             
-            if (!rulesData[ruleType]) {
-                const li = document.createElement('li');
-                li.textContent = "لا توجد قوانين متاحة لهذه الفئة حالياً.";
-                rulesList.appendChild(li);
-                return;
-            }
+            if (!rulesData[ruleType]) return;
+            
+            // إنشاء العناصر دفعة واحدة لزيادة الأداء وسلاسة التصفح
+            const fragment = document.createDocumentFragment();
             
             rulesData[ruleType].forEach((rule, index) => {
                 const li = document.createElement('li');
-                // بالنسبة لقوانين المدينة، لا نضع أرقاماً تسلسلية لأنها نص واحد منسق
-                if(ruleType === 'city') {
-                    li.innerHTML = rule;
+                
+                // الترتيب الرقمي لجميع القوانين بما فيها المدينة
+                if (ruleType === 'city' && index === 0) {
+                    li.innerHTML = `⚠️ <b>${rule}</b>`;
+                    li.style.borderRightColor = "#ffaa00";
+                    li.style.background = "#1a1a1a";
                 } else {
-                    li.innerHTML = `<span>${index + 1}.</span> ${rule}`;
+                    // إذا كنا في قوانين المدينة نبدأ الترقيم من بعد الجملة التنبيهية الأولى
+                    const displayIndex = ruleType === 'city' ? index : index + 1;
+                    li.innerHTML = `<span>${displayIndex}.</span> ${rule}`;
                 }
-                rulesList.appendChild(li);
+                
+                fragment.appendChild(li);
             });
             
-            // تأثير الظهور التدريجي
-            const listItems = rulesList.querySelectorAll('li');
-            listItems.forEach((item, index) => {
-                item.style.opacity = '0';
-                item.style.transform = 'translateX(20px)';
-                setTimeout(() => {
-                    item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                    item.style.opacity = '1';
-                    item.style.transform = 'translateX(0)';
-                }, index * 100);
-            });
+            rulesList.appendChild(fragment);
         }
 
-        // ========== PWA Functions ==========
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then(registration => {
-                    console.log('Service Worker مسجل:', registration.scope);
-                }).catch(error => {
-                    console.log('فشل تسجيل Service Worker:', error);
-                });
-            });
-        }
-
-        window.addEventListener('appinstalled', () => {
-            installIcon.style.display = 'none';
-            installPrompt.classList.remove('show');
-        });
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installIcon.style.display = 'flex';
-        });
-
-        installIcon.addEventListener('click', () => {
-            installPrompt.classList.add('show');
-        });
-
-        confirmInstall.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    installIcon.style.display = 'none';
-                }
-                deferredPrompt = null;
-                installPrompt.classList.remove('show');
-            }
-        });
-
-        cancelInstall.addEventListener('click', () => {
-            installPrompt.classList.remove('show');
-        });
-
-        // اكتشاف حالة الاتصال
-        window.addEventListener('online', () => {
-            offlineNotice.classList.remove('show');
-        });
-
-        window.addEventListener('offline', () => {
-            offlineNotice.classList.add('show');
-        });
-
-        if (!navigator.onLine) {
-            offlineNotice.classList.add('show');
-        }
-
-        // ========== تهيئة التطبيق ==========
-
-        document.addEventListener('DOMContentLoaded', function() {
-            loadRules('city');
-            
-            // تأثير النبض للزر النشط
-            setInterval(() => {
-                const activeBtn = document.querySelector('.rule-btn.active');
-                if (activeBtn) {
-                    activeBtn.classList.add('btn-pulse');
-                    setTimeout(() => {
-                        activeBtn.classList.remove('btn-pulse');
-                    }, 2000);
-                }
-            }, 3000);
-        });
-
+        // تفعيل أزرار القوانين والتبديل السريع
         ruleButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const ruleType = this.getAttribute('data-rule');
+                
+                // تبديل الفئة النشطة
                 ruleButtons.forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
+                
                 loadRules(ruleType);
-                playButtonSound();
             });
         });
 
-        // تأثير صوتي عند الضغط
-        function playButtonSound() {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.value = 600;
-                oscillator.type = 'sine';
-                
-                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-                
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.1);
-            } catch (e) {
-                console.log("تعذر تشغيل الصوت");
-            }
-        }
-
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-            installIcon.style.display = 'none';
-        }
+        // تشغيل الصفحة على قوانين المدينة افتراضياً عند التحميل
+        document.addEventListener('DOMContentLoaded', () => {
+            loadRules('city');
+        });
     </script>
 </body>
 </html>
