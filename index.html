@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موقع Crown State للقونين</title>
+    <title>موقع Crown State للقوانين</title>
     
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#0c1a2d">
-    <meta name="description" content="موقع Crown State للقونين">
+    <meta name="description" content="موقع Crown State للقوانين">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚖️</text></svg>">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
@@ -155,42 +155,11 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .app-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-top: 10px;
-        }
-        
-        .app-controls {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .app-control-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .app-control-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: rotate(15deg);
-        }
-        
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding-bottom: 80px; /* مساحة لأزرار التثبيت */
+            padding-bottom: 80px;
+            padding-top: 30px;
         }
         
         header {
@@ -208,14 +177,6 @@
             text-shadow: 0 0 15px rgba(79, 172, 254, 0.3);
         }
         
-        header p {
-            font-size: 1.1rem;
-            color: #a0c8ff;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-        
         .logo {
             font-size: 3rem;
             color: #00f2fe;
@@ -230,8 +191,16 @@
             margin-bottom: 40px;
         }
         
-        .rules-container {
+        .buttons-container {
             flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .rules-container {
+            flex: 2;
             min-width: 300px;
             background: rgba(16, 33, 54, 0.8);
             border-radius: 20px;
@@ -263,7 +232,7 @@
         
         .rules-list {
             list-style: none;
-            max-height: 500px;
+            max-height: 600px;
             overflow-y: auto;
             padding-right: 10px;
         }
@@ -291,6 +260,7 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            white-space: pre-line; /* يضمن بقاء أسطر مصفوفة المصطلحات منسقة بشكل صحيح */
         }
         
         .rules-list li:hover {
@@ -299,34 +269,10 @@
             border-right-color: #00f2fe;
         }
         
-        .rules-list li:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 5px;
-            height: 100%;
-            background: linear-gradient(to bottom, #4facfe, #00f2fe);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .rules-list li:hover:before {
-            opacity: 1;
-        }
-        
         .rules-list li span {
             font-weight: bold;
             color: #00f2fe;
             margin-left: 5px;
-        }
-        
-        .buttons-container {
-            flex: 1;
-            min-width: 300px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
         }
         
         .rule-btn {
@@ -352,6 +298,7 @@
         .rule-btn i {
             font-size: 1.8rem;
             transition: transform 0.3s ease;
+            margin-left: 10px;
         }
         
         .rule-btn:hover {
@@ -378,28 +325,18 @@
             height: 200%;
             background: radial-gradient(circle, rgba(79, 172, 254, 0.2) 0%, transparent 70%);
             opacity: 0;
-            transition: opacity 0.5s ease;
             pointer-events: none;
+            transition: opacity 0.5s ease;
         }
         
         .rule-btn:hover .btn-glow {
             opacity: 1;
         }
         
-        .btn-pulse {
-            animation: pulse 2s infinite;
-        }
-        
         @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(79, 172, 254, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(79, 172, 254, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(79, 172, 254, 0);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(79, 172, 254, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0); }
         }
         
         .highlight-line {
@@ -417,60 +354,19 @@
             width: 100%;
         }
         
-        .footer {
-            text-align: center;
-            padding: 25px;
-            margin-top: 30px;
-            border-top: 1px solid rgba(79, 172, 254, 0.2);
-            color: #a0c8ff;
-            font-size: 1rem;
-        }
-        
-        .footer a {
-            color: #4facfe;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .footer a:hover {
-            color: #00f2fe;
-            text-decoration: underline;
-        }
-        
-        /* ستايلات PWA للتطبيق المثبت */
         @media (display-mode: standalone) {
-            body {
-                padding-top: 20px;
-            }
-            
-            .install-icon {
-                display: none;
-            }
+            .install-icon { display: none; }
         }
         
         @media (max-width: 768px) {
-            .app {
-                flex-direction: column;
-            }
-            
-            header h1 {
-                font-size: 2rem;
-            }
-            
-            .rule-btn {
-                padding: 18px 20px;
-                font-size: 1.1rem;
-            }
-            
-            .install-prompt {
-                left: 10px;
-                right: 10px;
-                bottom: 10px;
-            }
+            .app { flex-direction: column; }
+            header h1 { font-size: 2rem; }
+            .rule-btn { padding: 18px 20px; font-size: 1.1rem; }
         }
     </style>
 </head>
 <body>
+
     <!-- إشعار عدم الاتصال -->
     <div class="offline-notice" id="offlineNotice">
         ⚠️ أنت تستخدم التطبيق بدون اتصال بالإنترنت
@@ -491,18 +387,6 @@
     </div>
     
     <div class="container">
-        <div class="app-header">
-            <div></div> <!-- عنصر فارغ للمحاذاة -->
-            <div class="app-controls">
-                <button class="app-control-btn" id="shareBtn" title="مشاركة التطبيق">
-                    <i class="fas fa-share-alt"></i>
-                </button>
-                <button class="app-control-btn" id="themeBtn" title="تبديل السمة">
-                    <i class="fas fa-moon"></i>
-                </button>
-            </div>
-        </div>
-        
         <header>
             <div class="logo">
                 <i class="fas fa-gavel"></i>
@@ -512,7 +396,7 @@
         
         <main class="app">
             <div class="buttons-container">
-                <button class="rule-btn btn-pulse active" data-rule="city" id="city-btn">
+                <button class="rule-btn active" data-rule="city" id="city-btn">
                     <div>
                         <i class="fas fa-city"></i>
                         قوانين المدينة العامة
@@ -523,7 +407,7 @@
                 
                 <button class="rule-btn" data-rule="police" id="police-btn">
                     <div>
-                        <i class="fas fa-police-car"></i>
+                        <i class="fas fa-car-on"></i>
                         قوانين الشرطة
                     </div>
                     <div class="btn-glow"></div>
@@ -576,63 +460,28 @@
         </main>
     </div>
 
-    <!-- خدمة العامل (Service Worker) -->
     <script>
-        // بيانات القوانين (مخزنة محلياً للاستخدام بدون اتصال)
+        // بيانات القوانين (تم إصلاح كتابة النص متعدد الأسطر في الجافاسكريبت)
         const rulesData = {
             city: [
-                "**
-الالتزام بهذه المصطلحات داخل المدينة ضروي ,أي تهاون في هذه القوانين يصدر عنه عقوبات صارمة :
+`الالتزام بهذه المصطلحات داخل المدينة ضروري، أي تهاون في هذه القوانين يصدر عنه عقوبات صارمة:
 
-Server :
-مدينة
-
-Ban :
-عمرة 
-
-Admin :
- شبح/ جن
-
-Bot :
-مدني
-
-Skin :
-لباس
-
-id :
-سيسيبي(ccp)
-
-Lag / Glitch :
-سحر/صداع
-
-Discord :
-الراديو الكبير
-
-Announce :
-الجريدة
-
-Mic :
-الحنجرة/احبال صوتية
-
-Resrart Server :
-اعصار
-
-Afk :
-راه معا مخو
-
-Chat :
-الورقة
-
-Stash / Cmd :
-عضلة
-
-Rules :
-القوانين / الدستور
-
-Record:  
-العين = 👀
-**",
-                
+Server : مدينة
+Ban : عمرة 
+Admin : شبح/ جن
+Bot : مدني
+Skin : لباس
+id : سيسيبي (ccp)
+Lag / Glitch : سحر/صداع
+Discord : الراديو الكبير
+Announce : الجريدة
+Mic : الحنجرة/احبال صوتية
+Restart Server : اعصار
+Afk : راه معا مخو
+Chat : الورقة
+Stash / Cmd : عضلة
+Rules : القوانين / الدستور
+Record: العين = 👀`
             ],
             police: [
                 "يجب على ضباط الشرطة الالتزام بالزي الرسمي للشرطة أثناء الخدمة",
@@ -667,7 +516,7 @@ Record:
             hospital: [
                 "يجب على الأطباء والممرضين الالتزام بالزي الطبي الرسمي أثناء العمل",
                 "يمنع رفض تقديم العلاج للمرضى أو المصابين دون سبب طبي مقنع",
-                "يجب الحفاظ على سرية المعلومات الطبية للمرضاء وعدم إفشائها",
+                "يجب الحفاظ على سرية المعلومات الطبية للمرضى وعدم إفشائها",
                 "يمنع تزوير التقارير الطبية أو إصدار شهادات مزورة",
                 "يجب تقديم الإسعافات الأولية فوراً للحالات الطارئة",
                 "يمنع استخدام معدات المستشفى أو الأدوية لأغراض شخصية",
@@ -695,15 +544,9 @@ Record:
         const installPrompt = document.getElementById('installPrompt');
         const confirmInstall = document.getElementById('confirmInstall');
         const cancelInstall = document.getElementById('cancelInstall');
-        const shareBtn = document.getElementById('shareBtn');
-        const themeBtn = document.getElementById('themeBtn');
-        const appStatus = document.getElementById('appStatus');
 
-        // متغيرات PWA
         let deferredPrompt;
-        let isDarkTheme = true;
 
-        // عناوين الفئات
         const categoryTitles = {
             city: "قوانين المدينة العامة",
             police: "قوانين الشرطة",
@@ -713,10 +556,9 @@ Record:
             chat: "قوانين الدردشة"
         };
 
-        // أيقونات الفئات
         const categoryIcons = {
             city: "fa-city",
-            police: "fa-police-car",
+            police: "fa-car-on",
             gangs: "fa-user-secret",
             driving: "fa-car",
             hospital: "fa-ambulance",
@@ -726,7 +568,6 @@ Record:
         // تحميل القوانين للفئة المحددة
         function loadRules(ruleType) {
             rulesList.innerHTML = '';
-            
             const iconClass = categoryIcons[ruleType];
             rulesTitle.innerHTML = `<i class="fas ${iconClass}"></i> ${categoryTitles[ruleType]}`;
             
@@ -739,16 +580,20 @@ Record:
             
             rulesData[ruleType].forEach((rule, index) => {
                 const li = document.createElement('li');
-                li.innerHTML = `<span>${index + 1}.</span> ${rule}`;
+                // بالنسبة لقوانين المدينة، لا نضع أرقاماً تسلسلية لأنها نص واحد منسق
+                if(ruleType === 'city') {
+                    li.innerHTML = rule;
+                } else {
+                    li.innerHTML = `<span>${index + 1}.</span> ${rule}`;
+                }
                 rulesList.appendChild(li);
             });
             
-            // تأثير ظهور تدريجي
+            // تأثير الظهور التدريجي
             const listItems = rulesList.querySelectorAll('li');
             listItems.forEach((item, index) => {
                 item.style.opacity = '0';
                 item.style.transform = 'translateX(20px)';
-                
                 setTimeout(() => {
                     item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
                     item.style.opacity = '1';
@@ -759,55 +604,43 @@ Record:
 
         // ========== PWA Functions ==========
 
-        // تسجيل Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js').then(registration => {
                     console.log('Service Worker مسجل:', registration.scope);
-                    appStatus.textContent = 'التطبيق يعمل الآن في وضع المتصفح';
                 }).catch(error => {
                     console.log('فشل تسجيل Service Worker:', error);
-                    appStatus.textContent = 'التطبيق يعمل في وضع المتصفح فقط';
                 });
             });
         }
 
-        // اكتشاف التثبيت المسبق
         window.addEventListener('appinstalled', () => {
-            console.log('تم تثبيت التطبيق بنجاح!');
             installIcon.style.display = 'none';
             installPrompt.classList.remove('show');
-            appStatus.textContent = 'التطبيق مثبت على جهازك!';
         });
 
-        // عرض مطالبة التثبيت
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
             installIcon.style.display = 'flex';
-            
-            installIcon.addEventListener('click', () => {
-                installPrompt.classList.add('show');
-            });
         });
 
-        // تأكيد التثبيت
+        installIcon.addEventListener('click', () => {
+            installPrompt.classList.add('show');
+        });
+
         confirmInstall.addEventListener('click', async () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
-                
                 if (outcome === 'accepted') {
-                    console.log('قبل المستخدم تثبيت التطبيق');
                     installIcon.style.display = 'none';
                 }
-                
                 deferredPrompt = null;
                 installPrompt.classList.remove('show');
             }
         });
 
-        // إلغاء التثبيت
         cancelInstall.addEventListener('click', () => {
             installPrompt.classList.remove('show');
         });
@@ -815,57 +648,18 @@ Record:
         // اكتشاف حالة الاتصال
         window.addEventListener('online', () => {
             offlineNotice.classList.remove('show');
-            appStatus.textContent = 'التطبيق متصل بالإنترنت';
         });
 
         window.addEventListener('offline', () => {
             offlineNotice.classList.add('show');
-            appStatus.textContent = 'التطبيق يعمل بدون اتصال بالإنترنت';
         });
 
-        // التحقق من حالة الاتصال الأولية
         if (!navigator.onLine) {
             offlineNotice.classList.add('show');
-            appStatus.textContent = 'التطبيق يعمل بدون اتصال بالإنترنت';
         }
-
-        // ========== ميزات إضافية ==========
-
-        // مشاركة التطبيق
-        shareBtn.addEventListener('click', async () => {
-            if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: 'قوانين SA-MP - موقع',
-                        text: 'موقع قوانين الرول بلاي لسيرفرات SA-MP',
-                        url: window.location.href,
-                    });
-                } catch (error) {
-                    console.log('تم إلغاء المشاركة:', error);
-                }
-            } else {
-                // نسخ الرابط إذا لم تكن API المشاركة متوفرة
-                navigator.clipboard.writeText(window.location.href);
-                alert('تم نسخ رابط التطبيق إلى الحافظة!');
-            }
-        });
-
-        // تبديل السمة
-        themeBtn.addEventListener('click', () => {
-            isDarkTheme = !isDarkTheme;
-            
-            if (isDarkTheme) {
-                document.body.style.background = 'linear-gradient(135deg, #0c1a2d 0%, #1a3a5f 100%)';
-                themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
-            } else {
-                document.body.style.background = 'linear-gradient(135deg, #2c3e50 0%, #4a6491 100%)';
-                themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
-            }
-        });
 
         // ========== تهيئة التطبيق ==========
 
-        // تحميل القوانين الافتراضية
         document.addEventListener('DOMContentLoaded', function() {
             loadRules('city');
             
@@ -881,34 +675,17 @@ Record:
             }, 3000);
         });
 
-        // إضافة مستمعي الأحداث للأزرار
         ruleButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const ruleType = this.getAttribute('data-rule');
-                
-                ruleButtons.forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                
+                ruleButtons.forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
                 loadRules(ruleType);
                 playButtonSound();
             });
-            
-            button.addEventListener('mouseenter', function() {
-                if (!this.classList.contains('active')) {
-                    this.style.transform = 'translateY(-5px)';
-                }
-            });
-            
-            button.addEventListener('mouseleave', function() {
-                if (!this.classList.contains('active')) {
-                    this.style.transform = 'translateY(0)';
-                }
-            });
         });
 
-        // تأثير صوتي
+        // تأثير صوتي عند الضغط
         function playButtonSound() {
             try {
                 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -931,69 +708,8 @@ Record:
             }
         }
 
-        // تحديد إذا كان التطبيق مثبتاً بالفعل
         if (window.matchMedia('(display-mode: standalone)').matches) {
             installIcon.style.display = 'none';
-            appStatus.textContent = 'التطبيق مثبت على جهازك ويعمل في وضع التطبيق!';
-        }
-    </script>
-
-    <!-- Service Worker ملف (يتم إنشاؤه افتراضياً) -->
-    <script>
-        // إنشاء Service Worker افتراضي إذا لم يكن موجوداً
-        if ('serviceWorker' in navigator) {
-            const swContent = `
-                // Service Worker لتطبيق قوانين SA-MP
-                const CACHE_NAME = 'samp-rules-v1';
-                const urlsToCache = [
-                    '/',
-                    '/index.html',
-                    '/manifest.json'
-                ];
-
-                self.addEventListener('install', event => {
-                    event.waitUntil(
-                        caches.open(CACHE_NAME)
-                            .then(cache => {
-                                return cache.addAll(urlsToCache);
-                            })
-                    );
-                });
-
-                self.addEventListener('fetch', event => {
-                    event.respondWith(
-                        caches.match(event.request)
-                            .then(response => {
-                                if (response) {
-                                    return response;
-                                }
-                                return fetch(event.request);
-                            })
-                    );
-                });
-
-                self.addEventListener('activate', event => {
-                    const cacheWhitelist = [CACHE_NAME];
-                    event.waitUntil(
-                        caches.keys().then(cacheNames => {
-                            return Promise.all(
-                                cacheNames.map(cacheName => {
-                                    if (cacheWhitelist.indexOf(cacheName) === -1) {
-                                        return caches.delete(cacheName);
-                                    }
-                                })
-                            );
-                        })
-                    );
-                });
-            `;
-
-            // إنشاء blob من محتوى Service Worker
-            const blob = new Blob([swContent], { type: 'application/javascript' });
-            const swUrl = URL.createObjectURL(blob);
-            
-            // تسجيل Service Worker
-            navigator.serviceWorker.register(swUrl);
         }
     </script>
 </body>
